@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 28/03/2023 22:43:39
+ Date: 29/03/2023 22:48:09
 */
 
 SET NAMES utf8mb4;
@@ -29,18 +29,42 @@ CREATE TABLE `personprofile`  (
   `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`profileid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of personprofile
 -- ----------------------------
-INSERT INTO `personprofile` VALUES (1, 'ftest1', 'ltest1', 'mtest1', 'M', 'atest1');
+INSERT INTO `personprofile` VALUES (2, 'ftest1', 'ltest1', 'mtest1', 'M', 'atest1');
 
 -- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `gender` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `age` int(0) NOT NULL,
+  `mobile` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `temp` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `diag` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `enc` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `vac` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES (2, 'Ryan Abcede', 'male', 30, '0906123456', '5', 'yes', 'yes', 'no', 'Filipino', '2023-03-27 20:38:19');
+
+-- ----------------------------
+-- Table structure for users_copy1
+-- ----------------------------
+DROP TABLE IF EXISTS `users_copy1`;
+CREATE TABLE `users_copy1`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `Gender` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
@@ -56,9 +80,9 @@ CREATE TABLE `users`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of users
+-- Records of users_copy1
 -- ----------------------------
-INSERT INTO `users` VALUES (2, 'Ryan Abcede', 'male', 30, '0906123456', '5', 'yes', 'yes', 'no', 'Filipino', '2023-03-27 20:38:19');
+INSERT INTO `users_copy1` VALUES (2, 'Ryan Abcede', 'male', 30, '0906123456', '5', 'yes', 'yes', 'no', 'Filipino', '2023-03-27 20:38:19');
 
 -- ----------------------------
 -- Procedure structure for sp_delete
