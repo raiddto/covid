@@ -30,24 +30,18 @@
         </button>
       </div>
     </div>
-    <table class="table table-dark">
+    <table id="dataTable" class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th scope="col"></th>
-          <th scope="col">Name</th>
+          <th scope="col">ID</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Middle Name</th>
           <th scope="col">Gender</th>
-          <th scope="col">Age</th>
-          <th scope="col">Mobile No.</th>
-          <th scope="col">Body Temp</th>
-          <th scope="col">Diagnosed</th>
-          <th scope="col">Encountered</th>
-          <th scope="col">Vacinated</th>
-          <th scope="col">Nationality</th>
+          <th scope="col">Address</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody id="items"></tbody>
-
       <!-- Modal -->
     </table>
     <div
@@ -73,110 +67,69 @@
           </div>
           <div class="modal-body">
             <form id="profile" class="needs-validation" novalidate>
-              <input type="hidden" name="id" id="id" />
+              <input type="hidden" name="profileid" id="profileid" />
               <div class="form-group">
-                <label for="name">Name *</label>
+                <label for="firstname">First Name *</label>
                 <input
                   type="text"
                   class="form-control"
-                  name="name"
-                  id="name"
-                  placeholder="Name"
+                  name="firstname"
+                  id="firstname"
+                  placeholder="First Name"
                   required
                 />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please enter a Name.</div>
+                <div class="invalid-feedback">Please enter a First Name.</div>
               </div>
               <div class="form-group">
-                <label for="gender">Gender</label><br>
+                <label for="lastname">Last Name *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="lastname"
+                  id="lastname"
+                  placeholder="Last Name"
+                  required
+                />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter a Last Name.</div>
+              </div>
+              <div class="form-group">
+                <label for="middlename">Middle Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="middlename"
+                  id="middlename"
+                  placeholder="Middle Name"
+                />
+              </div>
+              <div class="form-group">
                 <select
                   id="gender"
                   name="gender"
                   class="custom-select"
                   required
                 >
-                  <option value="M" selected>Male</option>
+                  <option value="">Select Gender *</option>
+                  <option value="M">Male</option>
                   <option value="F">Female</option>
                 </select>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please select a gender.</div>
               </div>
               <div class="form-group">
-                <label for="age">Age</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="age"
-                  id="age"
-                  placeholder="Age"
-                />
-              </div>
-              <div class="form-group">
-                <label for="mobile">Mobile No.</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="mobile"
-                  id="mobile"
-                  placeholder="Mobile No."
-                />
-              </div>
-              <div class="form-group">
-                <label for="temp">Body Temp</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="temp"
-                  id="temp"
-                  placeholder="Body Temp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="diag">COVID-19 Diagnosed</label><br>
-                <select
-                  id="diag"
-                  name="diag"
-                  class="custom-select"
-                  required
-                >
-                  <option value="Y">Yes</option>
-                  <option value="N">No</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="enc">COVID-19 Encountered</label><br>
-                <select
-                  id="enc"
-                  name="enc"
-                  class="custom-select"
-                  required
-                >
-                  <option value="Y">Yes</option>
-                  <option value="N">No</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="vac">Vacinated</label><br>
-                <select
-                  id="vac"
-                  name="vac"
-                  class="custom-select"
-                  required
-                >
-                  <option value="Y">Yes</option>
-                  <option value="N">No</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="Nationality">Nationality *</label>
+                <label for="address">Address *</label>
                 <input
                   type="textarea"
                   class="form-control"
-                  name="nationality"
-                  id="nationality"
-                  placeholder="Please enter Nationality"
+                  name="address"
+                  id="address"
+                  placeholder="Street, Purok and Barangay, CIty, Province, Country"
                   required
                 />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please enter Nationality.</div>
+                <div class="invalid-feedback">Please enter an Address.</div>
               </div>
               <div class="modal-footer">
                 <button
@@ -211,7 +164,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>You Are about to Delete this record.</p>
+            <p>
+              You are about to delete this record with ID
+              <span id="profiletodelete"></span>.
+            </p>
             <input type="hidden" id="deleteid" />
           </div>
           <div class="modal-footer">
@@ -238,13 +194,12 @@
 
 <script>
   $(function () {
-    readdata();
-
     $("form").submit(function (event) {
       event.preventDefault();
       let formdata = $(this).serializeArray();
 
       if (!formdata[0].value) {
+        //create
         $.ajax({
           method: "POST",
           url: window.location.pathname + "api/create.php", //window.location.pathname = http://localhost/crudsample
@@ -258,8 +213,8 @@
               autohide: true,
               delay: 3000,
             });
-            readdata();
             clearform();
+            table.ajax.reload();
             $("#modelId").modal("hide");
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -287,9 +242,10 @@
               autohide: true,
               delay: 3000,
             });
-            readdata();
             clearform();
+            table.ajax.reload();
             $("#modelId").modal("hide");
+
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
@@ -303,60 +259,80 @@
           },
         });
       }
+
+    });
+
+    $(document).on("click", "#editRow", function () {
+      let row = $(this).parents("tr")[0];
+      let profileid = table.row(row).data().profileid;
+      $.ajax({
+        method: "GET",
+        url: window.location.pathname + "api/read.php",
+        data: { id: profileid },
+        success: function (result, textStatus, jqXHR) {
+          console.log(textStatus + ": " + jqXHR.status);
+          $("#modelId").modal("show");
+          $("#profileid").val(result.data[0].profileid);
+          $("#firstname").val(result.data[0].firstname);
+          $("#lastname").val(result.data[0].lastname);
+          $("#middlename").val(result.data[0].middlename);
+          $("#gender").val(result.data[0].gender);
+          $("#address").val(result.data[0].address);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+        },
+      });
+    });
+
+    $(document).on("click", "#deleteRow", function () {
+      let row = $(this).parents("tr")[0];
+      let profileid = table.row(row).data().profileid;
+      $("#deleteid").val(profileid);
+      $("#profiletodelete").text(profileid);
+      $("#deleteprompt").modal("show");
     });
   });
 
-  function readdata() {
-    $.ajax({
-      method: "GET",
+  var table = $("#dataTable").DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    ajax: {
       url: window.location.pathname + "api/read.php",
-      data: { searchtext: "" },
-      success: function (result, textStatus, jqXHR) {
-        console.log(textStatus + ": " + jqXHR.status);
-        $("#items").empty();
-        result.data.forEach((row) => {
-          $("#deleteid").val(row.id);
-          $("#items").append(`
-            <tr>
-              <td>${row.id}</td>
-              <td>${row.name}</td>
-              <td>${row.gender}</td>
-              <td>${row.age}</td>
-              <td>${row.mobile}</td>
-              <td>${row.temp}</td>
-              <td>${row.diag}</td>
-              <td>${row.enc}</td>
-              <td>${row.vac}</td>
-              <td>${row.nat}</td>
-              <td>
-                <button class="btn btn-primary" onclick="editProfile(${row.id})">Edit</button>
-                <button class="btn btn-danger"  data-toggle="modal" data-target="#deleteprompt">Delete</button>
-                </td>
-              </tr>
-            `);
-        });
-        // <button class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal" onclick="deleteProfile(${row.id})">Delete</button>
-        // $(document).Toasts("create", {
-        //   class: "bg-success",
-        //   title: "Success",
-        //   body: "Records Loaded Successfuly.",
-        //   autohide: true,
-        //   delay: 3000,
-        // });
+      type: "POST",
+    },
+    columns: [
+      { data: "profileid" },
+      { data: "firstname" },
+      { data: "lastname" },
+      { data: "middlename" },
+      { data: "gender" },
+      { data: "address" },
+      {
+        data: null,
+        defaultContent: `<td>
+                <button class="btn btn-primary" id="editRow">Edit</button>
+                <button class="btn btn-danger" data-toggle="modal" id="deleteRow">Delete</button>
+              </td>`,
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
-      },
-    });
-  }
+    ],
+    paging: true,
+    lengthChange: true,
+    searching: true,
+    ordering: false,
+    info: true,
+    autoWidth: false,
+    lengthMenu: [5, 10, 25, 50],
+  });
 
   function deleteProfile() {
     $("#deleteprompt").modal("hide");
-    let id = $("#deleteid").val();
+    let profileid = $("#deleteid").val();
     $.ajax({
       method: "POST",
       url: window.location.pathname + "api/delete.php",
-      data: { id: id },
+      data: { id: profileid },
       success: function (result, textStatus, jqXHR) {
         console.log(textStatus + ": " + jqXHR.status);
         $(document).Toasts("create", {
@@ -366,40 +342,19 @@
           autohide: true,
           delay: 3000,
         });
-        readdata();
+        table.ajax.reload();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
       },
     });
   }
-  function editProfile(id) {
-    $.ajax({
-      method: "GET",
-      url: window.location.pathname + "api/read.php",
-      data: { id: id },
-      success: function (result, textStatus, jqXHR) {
-        console.log(textStatus + ": " + jqXHR.status);
-        $("#modelId").modal("show");
-        $("#id").val(result.data[0].id);
-        $("#firstname").val(result.data[0].firstname);
-        $("#lastname").val(result.data[0].lastname);
-        $("#middlename").val(result.data[0].middlename);
-        $("#gender").val(result.data[0].gender);
-        $("#Nationality").val(result.data[0].Nationality);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
-      },
-    });
-  }
-
   function clearform() {
-    $("#id").val("");
+    $("#profileid").val("");
     $("#firstname").val("");
     $("#lastname").val("");
     $("#middlename").val("");
     $("#gender").val("");
-    $("#Nationality").val("");
+    $("#address").val("");
   }
 </script>

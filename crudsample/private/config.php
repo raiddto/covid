@@ -1,6 +1,6 @@
 <?php
 define("DB_HOST", "localhost");
 define("DB_USERNAME", "root");
-define("DB_PASSWORD", "");
-define("DB_NAME", "case_study");
+define("DB_PASSWORD", "z7a18q");
+define("DB_NAME", "webdevr10");
 ?>

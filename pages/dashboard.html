@@ -16,13 +16,39 @@
 <!-- Main content -->
 <section class="content">
   <div class="row">
-    <div class="col-lg-3 col-6">
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3 id="totalrecords"></h3>
+
+          <p>Total Records</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-6">
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3 id="numberofprofiles"></h3>
+          <h3 id="totalmale"></h3>
 
-          <p>Number of Profiles</p>
+          <p>Total Male</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3 id="totalfemale"></h3>
+
+          <p>Total Female</p>
         </div>
         <div class="icon">
           <i class="ion ion-person"></i>
@@ -40,8 +66,10 @@
       url: window.location.pathname + "api/dashboarddata.php",
       success: function (result, textStatus, jqXHR) {
         console.log(textStatus + ": " + jqXHR.status);
-        console.log(result.data[0].numofprofiles);
-        $("#numberofprofiles").text(result.data[0].numofprofiles);
+
+        $("#totalrecords").text(result.data[0].totalrecords);
+        $("#totalmale").text(result.data[0].totalmale);
+        $("#totalfemale").text(result.data[0].totalfemale);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);

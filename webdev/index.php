@@ -105,9 +105,9 @@
 								<label for="encounter">COVID-19 Encounter</label><br>
 								&nbsp;
 								<input type="radio" id="html" name="encounter" value="yes">
-								<label for="encounter1">Yes</label>&emsp;
+								<label for="enc1">Yes</label>&emsp;
 								<input type="radio" name="encounter" value="no" checked="checked">
-								<label for="encounter2">No</label><br>
+								<label for="enc2">No</label><br>
 							</div>
 							<div class="form-group">
 								<label for="vax">Vacinated</label><br>

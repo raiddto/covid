@@ -27,13 +27,25 @@ class PersonProfile{
         return $result;
     }
 
-    public function getall($searchtext){
-        mysqli_next_result($this->conn);;
-        $sql = "SELECT * FROM " . $this->table_name . " WHERE firstname LIKE '%" . $searchtext . "%' OR lastname LIKE '%" . $searchtext . "%'";
-
+    public function getall($params){
+        $sql = "SELECT COUNT(*) AS count FROM " . $this->table_name . " WHERE firstname LIKE '" . $params->search ."' OR lastname LIKE '" . $params->search ."'";
         $result = mysqli_query($this->conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        mysqli_next_result($this->conn);
+   
+        $sql = "SELECT * FROM " . $this->table_name . " WHERE firstname LIKE '" . $params->search ."' OR lastname LIKE '" . $params->search ."' LIMIT " . $params->start . ", " . $params->length;
+        $result = mysqli_query($this->conn, $sql);
+        $result->recordsTotal = $row['count'];
         mysqli_close($this->conn);
+
         return $result;
+        // mysqli_next_result($this->conn);
+        // $sql = "SELECT * FROM " . $this->table_name . " WHERE firstname LIKE '%" . $searchtext . "%' OR lastname LIKE '%" . $searchtext . "%' LIMIT 10";
+
+        // $result = mysqli_query($this->conn, $sql);
+        // mysqli_close($this->conn);
+        // return $result;
     }
 
     public function create(){
@@ -90,7 +102,7 @@ class PersonProfile{
 
     public function getdashboarddata() {
         mysqli_next_result($this->conn);;
-        $sql = "SELECT COUNT(*) AS numofprofiles FROM " . $this->table_name;
+        $sql = "SELECT * FROM v_dashboarddata";
 
         $result = mysqli_query($this->conn, $sql);
         mysqli_close($this->conn);

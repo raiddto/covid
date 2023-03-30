@@ -30,7 +30,7 @@
         </button>
       </div>
     </div>
-    <table class="table table-dark">
+    <table id="dataTable" class="table table-bordered table-striped">
       <thead>
         <tr>
           <th scope="col">ID</th>
@@ -42,8 +42,6 @@
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody id="items"></tbody>
-
       <!-- Modal -->
     </table>
     <div
@@ -166,7 +164,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>You Are about to Delete this record.</p>
+            <p>
+              You are about to delete this record with ID
+              <span id="profiletodelete"></span>.
+            </p>
             <input type="hidden" id="deleteid" />
           </div>
           <div class="modal-footer">
@@ -193,13 +194,12 @@
 
 <script>
   $(function () {
-    readdata();
-
     $("form").submit(function (event) {
       event.preventDefault();
       let formdata = $(this).serializeArray();
 
       if (!formdata[0].value) {
+        //create
         $.ajax({
           method: "POST",
           url: window.location.pathname + "api/create.php", //window.location.pathname = http://localhost/crudsample
@@ -213,8 +213,8 @@
               autohide: true,
               delay: 3000,
             });
-            readdata();
             clearform();
+            table.ajax.reload();
             $("#modelId").modal("hide");
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -242,9 +242,10 @@
               autohide: true,
               delay: 3000,
             });
-            readdata();
             clearform();
+            table.ajax.reload();
             $("#modelId").modal("hide");
+
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
@@ -258,48 +259,72 @@
           },
         });
       }
+
+    });
+
+    $(document).on("click", "#editRow", function () {
+      let row = $(this).parents("tr")[0];
+      let profileid = table.row(row).data().profileid;
+      $.ajax({
+        method: "GET",
+        url: window.location.pathname + "api/read.php",
+        data: { id: profileid },
+        success: function (result, textStatus, jqXHR) {
+          console.log(textStatus + ": " + jqXHR.status);
+          $("#modelId").modal("show");
+          $("#profileid").val(result.data[0].profileid);
+          $("#firstname").val(result.data[0].firstname);
+          $("#lastname").val(result.data[0].lastname);
+          $("#middlename").val(result.data[0].middlename);
+          $("#gender").val(result.data[0].gender);
+          $("#address").val(result.data[0].address);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+        },
+      });
+    });
+
+    $(document).on("click", "#deleteRow", function () {
+      let row = $(this).parents("tr")[0];
+      let profileid = table.row(row).data().profileid;
+      $("#deleteid").val(profileid);
+      $("#profiletodelete").text(profileid);
+      $("#deleteprompt").modal("show");
     });
   });
 
-  function readdata() {
-    $.ajax({
-      method: "GET",
+  var table = $("#dataTable").DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    ajax: {
       url: window.location.pathname + "api/read.php",
-      data: { searchtext: "" },
-      success: function (result, textStatus, jqXHR) {
-        console.log(textStatus + ": " + jqXHR.status);
-        $("#items").empty();
-        result.data.forEach((row) => {
-          $("#deleteid").val(row.profileid);
-          $("#items").append(`
-            <tr>
-              <td>${row.profileid}</td>
-              <td>${row.firstname}</td>
-              <td>${row.lastname}</td>
-              <td>${row.middlename}</td>
-              <td>${row.gender}</td>
-              <td>${row.address}</td>
-              <td>
-                <button class="btn btn-primary" onclick="editProfile(${row.profileid})">Edit</button>
-                <button class="btn btn-danger"  data-toggle="modal" data-target="#deleteprompt">Delete</button>
-                </td>
-              </tr>
-            `);
-        });
-        // <button class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal" onclick="deleteProfile(${row.profileid})">Delete</button>
-        // $(document).Toasts("create", {
-        //   class: "bg-success",
-        //   title: "Success",
-        //   body: "Records Loaded Successfuly.",
-        //   autohide: true,
-        //   delay: 3000,
-        // });
+      type: "POST",
+    },
+    columns: [
+      { data: "profileid" },
+      { data: "firstname" },
+      { data: "lastname" },
+      { data: "middlename" },
+      { data: "gender" },
+      { data: "address" },
+      {
+        data: null,
+        defaultContent: `<td>
+                <button class="btn btn-primary" id="editRow">Edit</button>
+                <button class="btn btn-danger" data-toggle="modal" id="deleteRow">Delete</button>
+              </td>`,
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
-      },
-    });
-  }
+    ],
+    paging: true,
+    lengthChange: true,
+    searching: true,
+    ordering: false,
+    info: true,
+    autoWidth: false,
+    lengthMenu: [5, 10, 25, 50],
+  });
 
   function deleteProfile() {
     $("#deleteprompt").modal("hide");
@@ -317,34 +342,13 @@
           autohide: true,
           delay: 3000,
         });
-        readdata();
+        table.ajax.reload();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
       },
     });
   }
-  function editProfile(profileid) {
-    $.ajax({
-      method: "GET",
-      url: window.location.pathname + "api/read.php",
-      data: { id: profileid },
-      success: function (result, textStatus, jqXHR) {
-        console.log(textStatus + ": " + jqXHR.status);
-        $("#modelId").modal("show");
-        $("#profileid").val(result.data[0].profileid);
-        $("#firstname").val(result.data[0].firstname);
-        $("#lastname").val(result.data[0].lastname);
-        $("#middlename").val(result.data[0].middlename);
-        $("#gender").val(result.data[0].gender);
-        $("#address").val(result.data[0].address);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
-      },
-    });
-  }
-
   function clearform() {
     $("#profileid").val("");
     $("#firstname").val("");

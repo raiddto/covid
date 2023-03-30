@@ -4,18 +4,14 @@ class PersonProfile{
 
     // database connection and table name
     private $conn;
-    private $table_name = "users";
+    private $table_name = "personprofile";
 
-    public $id;
-    public $name;
+    public $profileid;
+    public $firstname;
+    public $lastname;
+    public $middlename;
     public $gender;
-    public $age;
-    public $mobile;
-    public $temp;
-    public $diag;
-    public $enc;
-    public $vac;
-    public $nat;
+    public $address;
 
     public function __construct($db)
     {
@@ -24,36 +20,44 @@ class PersonProfile{
 
     public function getbyid($params){
         mysqli_next_result($this->conn);;
-        $sql = "SELECT * FROM " . $this->table_name . " WHERE id = " . $params;
+        $sql = "SELECT * FROM " . $this->table_name . " WHERE profileid = " . $params;
 
         $result = mysqli_query($this->conn, $sql);
         mysqli_close($this->conn);
         return $result;
     }
 
-    public function getall($searchtext){
-        mysqli_next_result($this->conn);;
-        $sql = "SELECT * FROM " . $this->table_name . " WHERE name LIKE '%" . $searchtext . "%'";
-
+    public function getall($params){
+        $sql = "SELECT COUNT(*) AS count FROM " . $this->table_name . " WHERE firstname LIKE '" . $params->search ."' OR lastname LIKE '" . $params->search ."'";
         $result = mysqli_query($this->conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        mysqli_next_result($this->conn);
+   
+        $sql = "SELECT * FROM " . $this->table_name . " WHERE firstname LIKE '" . $params->search ."' OR lastname LIKE '" . $params->search ."' LIMIT " . $params->start . ", " . $params->length;
+        $result = mysqli_query($this->conn, $sql);
+        $result->recordsTotal = $row['count'];
         mysqli_close($this->conn);
+
         return $result;
+        // mysqli_next_result($this->conn);
+        // $sql = "SELECT * FROM " . $this->table_name . " WHERE firstname LIKE '%" . $searchtext . "%' OR lastname LIKE '%" . $searchtext . "%' LIMIT 10";
+
+        // $result = mysqli_query($this->conn, $sql);
+        // mysqli_close($this->conn);
+        // return $result;
     }
 
     public function create(){
-        $statement = $this->conn->prepare("INSERT INTO " . $this->table_name . " (name, gender, age, mobile, temp, diag, enc, vac, nat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $statement->bind_param("sssss",$this->name,$this->gender,$this->age,$this->mobile,$this->temp,$this->diag,$this->enc,$this->vac,$this->nat);
+        $statement = $this->conn->prepare("INSERT INTO " . $this->table_name . " (firstname, lastname, middlename, gender, address) VALUES (?, ?, ?, ?, ?)");
+        $statement->bind_param("sssss",$this->firstname,$this->lastname,$this->middlename,$this->gender,$this->address);
 
         //sanitize
-        $this->name=htmlspecialchars(strip_tags($this->name));
+        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
+        $this->lastname=htmlspecialchars(strip_tags($this->lastname));
+        $this->middlename=htmlspecialchars(strip_tags($this->middlename));
         $this->gender=htmlspecialchars(strip_tags($this->gender));
-        $this->age=htmlspecialchars(strip_tags($this->age));
-        $this->mobile=htmlspecialchars(strip_tags($this->mobile));
-        $this->temp=htmlspecialchars(strip_tags($this->temp));
-        $this->diag=htmlspecialchars(strip_tags($this->diag));
-        $this->enc=htmlspecialchars(strip_tags($this->enc));
-        $this->vac=htmlspecialchars(strip_tags($this->vac));
-        $this->nat=htmlspecialchars(strip_tags($this->nat));
+        $this->address=htmlspecialchars(strip_tags($this->address));
 
         if($statement->execute()){
             $statement->close();
@@ -65,19 +69,15 @@ class PersonProfile{
     }
 
     public function update(){
-        $statement = $this->conn->prepare("UPDATE " . $this->table_name . " SET name = ?, gender = ?, age = ?, gender = ?, mobile = ?, address = ?, temp = ?, diag = ?, enc = ?, vac = ?, nat = ? WHERE profileid = " . $this->profileid . "");
-        $statement->bind_param("sssss",$this->name,$this->gender,$this->age,$this->gender,$this->mobile,$this->temp,$this->diag,$this->enc,$this->vac,$this->nat);
+        $statement = $this->conn->prepare("UPDATE " . $this->table_name . " SET firstname = ?, lastname = ?, middlename = ?, gender = ?, address = ? WHERE profileid = " . $this->profileid . "");
+        $statement->bind_param("sssss",$this->firstname,$this->lastname,$this->middlename,$this->gender,$this->address);
 
         //sanitize
-        $this->name=htmlspecialchars(strip_tags($this->name));
+        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
+        $this->lastname=htmlspecialchars(strip_tags($this->lastname));
+        $this->middlename=htmlspecialchars(strip_tags($this->middlename));
         $this->gender=htmlspecialchars(strip_tags($this->gender));
-        $this->age=htmlspecialchars(strip_tags($this->age));
-        $this->mobile=htmlspecialchars(strip_tags($this->mobile));
-        $this->temp=htmlspecialchars(strip_tags($this->temp));
-        $this->diag=htmlspecialchars(strip_tags($this->diag));
-        $this->enc=htmlspecialchars(strip_tags($this->enc));
-        $this->vac=htmlspecialchars(strip_tags($this->vac));
-        $this->nat=htmlspecialchars(strip_tags($this->nat));
+        $this->address=htmlspecialchars(strip_tags($this->address));
 
         if($statement->execute()){
             $statement->close();
@@ -102,7 +102,7 @@ class PersonProfile{
 
     public function getdashboarddata() {
         mysqli_next_result($this->conn);;
-        $sql = "SELECT COUNT(*) AS numofprofiles FROM " . $this->table_name;
+        $sql = "SELECT * FROM v_dashboarddata";
 
         $result = mysqli_query($this->conn, $sql);
         mysqli_close($this->conn);
