@@ -17,9 +17,14 @@ $item = new PersonProfile($db);
 
 $item->firstname = $_POST['firstname'];
 $item->lastname = $_POST['lastname'];
-$item->middlename = $_POST['middlename'];
 $item->gender = $_POST['gender'];
-$item->address = $_POST['address'];
+$item->age = $_POST['age'];
+$item->mobile = $_POST['mobile'];
+$item->temp = $_POST['temp'];
+$item->diag = $_POST['diag'];
+$item->enc = $_POST['enc'];
+$item->vax = $_POST['vax'];
+$item->nat = $_POST['nat'];
 
 // var_dump($item);
 if($item->create()){

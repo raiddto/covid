@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sample CRUD</title>
+    <title>Case Study 2 - Ryan Abcede</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link
@@ -72,14 +72,14 @@
       <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index.html" class="brand-link">
+        <a href="/covid" class="brand-link">
           <img
             src="img/AdminLTELogo.png"
             alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: 0.8"
           />
-          <span class="brand-text font-weight-light">Sample CRUD</span>
+          <span class="brand-text font-weight-light">Case Study 2</span>
         </a>
 
         <!-- Sidebar -->
@@ -103,7 +103,13 @@
               <li class="nav-item">
                 <a id="crudform" href="#" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
-                  <p>CRUD Form</p>
+                  <p>All Records</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id="crudform" href="/covid/original" class="nav-link" target="_blank">
+                  <i class="nav-icon fas fa-globe"></i>
+                  <p>Original</p>
                 </a>
               </li>
             </ul>

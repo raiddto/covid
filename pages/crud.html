@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0">CRUD FROM</h1>
+        <h1 class="m-0">All Records</h1>
       </div>
       <!-- /.col -->
       <!-- /.col -->
@@ -36,9 +36,14 @@
           <th scope="col">ID</th>
           <th scope="col">First Name</th>
           <th scope="col">Last Name</th>
-          <th scope="col">Middle Name</th>
           <th scope="col">Gender</th>
-          <th scope="col">Address</th>
+          <th scope="col">Age</th>
+          <th scope="col">Mobile No.</th>
+          <th scope="col">Body Temp</th>
+          <th scope="col">Diagnosed</th>
+          <th scope="col">Encountered</th>
+          <th scope="col">Vacinated</th>
+          <th scope="col">Nationality</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -79,7 +84,7 @@
                   required
                 />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please enter a First Name.</div>
+                <div class="invalid-feedback">Please enter firstname.</div>
               </div>
               <div class="form-group">
                 <label for="lastname">Last Name *</label>
@@ -92,26 +97,17 @@
                   required
                 />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please enter a Last Name.</div>
+                <div class="invalid-feedback">Please enter lastname.</div>
               </div>
               <div class="form-group">
-                <label for="middlename">Middle Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="middlename"
-                  id="middlename"
-                  placeholder="Middle Name"
-                />
-              </div>
-              <div class="form-group">
+                <label for="gender">Gender *</label>
                 <select
                   id="gender"
                   name="gender"
                   class="custom-select"
                   required
                 >
-                  <option value="">Select Gender *</option>
+                  <option value="">Select Gender</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                 </select>
@@ -119,17 +115,97 @@
                 <div class="invalid-feedback">Please select a gender.</div>
               </div>
               <div class="form-group">
-                <label for="address">Address *</label>
+                <label for="age">Age *</label>
                 <input
-                  type="textarea"
+                  type="number"
                   class="form-control"
-                  name="address"
-                  id="address"
-                  placeholder="Street, Purok and Barangay, CIty, Province, Country"
-                  required
+                  name="age"
+                  id="age"
+                  placeholder="Enter Age"
                 />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please enter an Address.</div>
+                <div class="invalid-feedback">Please enter age.</div>
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile No. *</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="mobile"
+                  id="mobile"
+                  placeholder="Enter Mobile Number"
+                />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter mobile number.</div>
+              </div>
+              <div class="form-group">
+                <label for="temp">Body Temp. *</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="temp"
+                  id="temp"
+                  placeholder="Enter Body Temperature"
+                />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter body temperature.</div>
+              </div>
+              <div class="form-group">
+                <label for="diag">COVID Diagnosed *</label>
+                <select
+                  id="diag"
+                  name="diag"
+                  class="custom-select"
+                  required
+                >
+                  <option value="">More Options</option>
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please select an option.</div>
+              </div>
+              <div class="form-group">
+                <label for="enc">COVID Encountered *</label>
+                <select
+                  id="enc"
+                  name="enc"
+                  class="custom-select"
+                  required
+                >
+                  <option value="">More Options</option>
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please select an option.</div>
+              </div>
+              <div class="form-group">
+                <label for="vax">Vacinated *</label>
+                <select
+                  id="vax"
+                  name="vax"
+                  class="custom-select"
+                  required
+                >
+                  <option value="">More Options</option>
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please select an option.</div>
+              </div>
+              <div class="form-group">
+                <label for="nat">Nationality *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nat"
+                  id="nat"
+                  placeholder="Enter Nationality"
+                />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter nationality.</div>
               </div>
               <div class="modal-footer">
                 <button
@@ -275,9 +351,14 @@
           $("#profileid").val(result.data[0].profileid);
           $("#firstname").val(result.data[0].firstname);
           $("#lastname").val(result.data[0].lastname);
-          $("#middlename").val(result.data[0].middlename);
           $("#gender").val(result.data[0].gender);
-          $("#address").val(result.data[0].address);
+          $("#age").val(result.data[0].age);
+          $("#mobile").val(result.data[0].mobile);
+          $("#temp").val(result.data[0].temp);
+          $("#diag").val(result.data[0].diag);
+          $("#enc").val(result.data[0].enc);
+          $("#vax").val(result.data[0].vax);
+          $("#nat").val(result.data[0].nat);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
@@ -306,9 +387,14 @@
       { data: "profileid" },
       { data: "firstname" },
       { data: "lastname" },
-      { data: "middlename" },
       { data: "gender" },
-      { data: "address" },
+      { data: "age" },
+      { data: "mobile" },
+      { data: "temp" },
+      { data: "diag" },
+      { data: "enc" },
+      { data: "vax" },
+      { data: "nat" },
       {
         data: null,
         defaultContent: `<td>
@@ -353,8 +439,13 @@
     $("#profileid").val("");
     $("#firstname").val("");
     $("#lastname").val("");
-    $("#middlename").val("");
     $("#gender").val("");
-    $("#address").val("");
+    $("#age").val("");
+    $("#mobile").val("");
+    $("#temp").val("");
+    $("#diag").val("");
+    $("#enc").val("");
+    $("#vax").val("");
+    $("#nat").val("");
   }
 </script>

@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 29/03/2023 22:48:09
+ Date: 30/03/2023 23:14:11
 */
 
 SET NAMES utf8mb4;
@@ -23,48 +23,25 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `personprofile`;
 CREATE TABLE `personprofile`  (
   `profileid` int(0) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `middlename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `firstname` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `lastname` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `gender` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `age` int(0) NULL DEFAULT NULL,
+  `mobile` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `temp` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `diag` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `enc` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `vax` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `nat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `Created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`profileid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of personprofile
--- ----------------------------
-INSERT INTO `personprofile` VALUES (2, 'ftest1', 'ltest1', 'mtest1', 'M', 'atest1');
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `gender` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `age` int(0) NOT NULL,
-  `mobile` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `temp` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `diag` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `enc` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `vac` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `nat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `Created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of users
--- ----------------------------
-INSERT INTO `users` VALUES (2, 'Ryan Abcede', 'male', 30, '0906123456', '5', 'yes', 'yes', 'no', 'Filipino', '2023-03-27 20:38:19');
-
--- ----------------------------
--- Table structure for users_copy1
--- ----------------------------
-DROP TABLE IF EXISTS `users_copy1`;
-CREATE TABLE `users_copy1`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `Gender` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
@@ -77,12 +54,13 @@ CREATE TABLE `users_copy1`  (
   `Nationality` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `Created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of users_copy1
+-- View structure for v_dashboarddata
 -- ----------------------------
-INSERT INTO `users_copy1` VALUES (2, 'Ryan Abcede', 'male', 30, '0906123456', '5', 'yes', 'yes', 'no', 'Filipino', '2023-03-27 20:38:19');
+DROP VIEW IF EXISTS `v_dashboarddata`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_dashboarddata` AS select sum(if((`personprofile`.`enc` = 'Y'),1,0)) AS `totalenc`,sum(if((`personprofile`.`vax` = 'Y'),1,0)) AS `totalvax`,sum(if((`personprofile`.`temp` >= 37),1,0)) AS `totalfever`,sum(if((`personprofile`.`age` >= 18),1,0)) AS `totaladult`,sum(if((`personprofile`.`age` <= 17),1,0)) AS `totalminor`,sum(if(((`personprofile`.`nat` <> 'filipino') or (`personprofile`.`nat` <> 'Filipino')),1,0)) AS `totalforeign` from `personprofile`;
 
 -- ----------------------------
 -- Procedure structure for sp_delete

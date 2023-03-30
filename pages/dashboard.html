@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0">CRUD FROM DASHBOARD</h1>
+        <h1 class="m-0">Dashboard</h1>
       </div>
       <!-- /.col -->
       <!-- /.col -->
@@ -16,46 +16,88 @@
 <!-- Main content -->
 <section class="content">
   <div class="row">
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-6 col-6">
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3 id="totalrecords"></h3>
+          <h3 id="totalenc">0</h3>
 
-          <p>Total Records</p>
+          <p>COVID-19 ENCOUNTER</p>
         </div>
         <div class="icon">
           <i class="ion ion-person"></i>
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-6 col-6">
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3 id="totalmale"></h3>
+          <h3 id="totalvax">0</h3>
 
-          <p>Total Male</p>
+          <p>VACCINATED</p>
         </div>
         <div class="icon">
           <i class="ion ion-person"></i>
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-6">
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3 id="totalfever">0</h3>
+
+          <p>FEVER</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-6">
       <!-- small box -->
       <div class="small-box bg-warning">
         <div class="inner">
-          <h3 id="totalfemale"></h3>
+          <h3 id="totaladult">0</h3>
 
-          <p>Total Female</p>
+          <p>ADULT</p>
         </div>
         <div class="icon">
           <i class="ion ion-person"></i>
         </div>
       </div>
     </div>
-    <!-- ./col -->
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3 id="totalminor">0</h3>
+
+          <p>MINOR</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3 id="totalforeign">0</h3>
+
+          <p>FOREIGNER</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person"></i>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -67,9 +109,12 @@
       success: function (result, textStatus, jqXHR) {
         console.log(textStatus + ": " + jqXHR.status);
 
-        $("#totalrecords").text(result.data[0].totalrecords);
-        $("#totalmale").text(result.data[0].totalmale);
-        $("#totalfemale").text(result.data[0].totalfemale);
+        $("#totalenc").text(result.data[0].totalenc);
+        $("#totalvax").text(result.data[0].totalvax);
+        $("#totalfever").text(result.data[0].totalfever);
+        $("#totaladult").text(result.data[0].totaladult);
+        $("#totalminor").text(result.data[0].totalminor);
+        $("#totalforeign").text(result.data[0].totalforeign);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);

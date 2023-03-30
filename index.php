@@ -11,6 +11,7 @@ require_once('./private/footer.php');
 ?>
 
 <script>
+    $(".content-wrapper").load("./pages/dashboard.html");
     $(function() {
         $("#dashboard").click(function() {
             $(".content-wrapper").load("./pages/dashboard.html");

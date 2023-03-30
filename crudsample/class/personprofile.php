@@ -4,7 +4,7 @@ class PersonProfile{
 
     // database connection and table name
     private $conn;
-    private $table_name = "personprofile";
+    private $table_name = "personprofile1";
 
     public $profileid;
     public $firstname;

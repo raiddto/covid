@@ -9,9 +9,14 @@ class PersonProfile{
     public $profileid;
     public $firstname;
     public $lastname;
-    public $middlename;
     public $gender;
-    public $address;
+    public $age;
+    public $mobile;
+    public $temp;
+    public $diag;
+    public $enc;
+    public $vax;
+    public $nat;
 
     public function __construct($db)
     {
@@ -49,15 +54,20 @@ class PersonProfile{
     }
 
     public function create(){
-        $statement = $this->conn->prepare("INSERT INTO " . $this->table_name . " (firstname, lastname, middlename, gender, address) VALUES (?, ?, ?, ?, ?)");
-        $statement->bind_param("sssss",$this->firstname,$this->lastname,$this->middlename,$this->gender,$this->address);
+        $statement = $this->conn->prepare("INSERT INTO " . $this->table_name . " (firstname, lastname, gender, age, mobile, temp, diag, enc, vax, nat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $statement->bind_param("ssssssssss",$this->firstname,$this->lastname,$this->gender,$this->age,$this->mobile,$this->temp,$this->diag,$this->enc,$this->vax,$this->nat);
 
         //sanitize
         $this->firstname=htmlspecialchars(strip_tags($this->firstname));
         $this->lastname=htmlspecialchars(strip_tags($this->lastname));
-        $this->middlename=htmlspecialchars(strip_tags($this->middlename));
         $this->gender=htmlspecialchars(strip_tags($this->gender));
-        $this->address=htmlspecialchars(strip_tags($this->address));
+        $this->age=htmlspecialchars(strip_tags($this->age));
+        $this->mobile=htmlspecialchars(strip_tags($this->mobile));
+        $this->temp=htmlspecialchars(strip_tags($this->temp));
+        $this->diag=htmlspecialchars(strip_tags($this->diag));
+        $this->enc=htmlspecialchars(strip_tags($this->enc));
+        $this->vax=htmlspecialchars(strip_tags($this->vax));
+        $this->nat=htmlspecialchars(strip_tags($this->nat));
 
         if($statement->execute()){
             $statement->close();
@@ -69,15 +79,20 @@ class PersonProfile{
     }
 
     public function update(){
-        $statement = $this->conn->prepare("UPDATE " . $this->table_name . " SET firstname = ?, lastname = ?, middlename = ?, gender = ?, address = ? WHERE profileid = " . $this->profileid . "");
-        $statement->bind_param("sssss",$this->firstname,$this->lastname,$this->middlename,$this->gender,$this->address);
+        $statement = $this->conn->prepare("UPDATE " . $this->table_name . " SET firstname = ?, lastname = ?, gender = ?, age = ?, mobile = ?, temp = ?, diag = ?, enc = ?, vax = ?, nat = ? WHERE profileid = " . $this->profileid . "");
+        $statement->bind_param("ssssssssss",$this->firstname,$this->lastname,$this->gender,$this->age,$this->mobile,$this->temp,$this->diag,$this->enc,$this->vax,$this->nat);
 
         //sanitize
         $this->firstname=htmlspecialchars(strip_tags($this->firstname));
         $this->lastname=htmlspecialchars(strip_tags($this->lastname));
-        $this->middlename=htmlspecialchars(strip_tags($this->middlename));
         $this->gender=htmlspecialchars(strip_tags($this->gender));
-        $this->address=htmlspecialchars(strip_tags($this->address));
+        $this->age=htmlspecialchars(strip_tags($this->age));
+        $this->mobile=htmlspecialchars(strip_tags($this->mobile));
+        $this->temp=htmlspecialchars(strip_tags($this->temp));
+        $this->diag=htmlspecialchars(strip_tags($this->diag));
+        $this->enc=htmlspecialchars(strip_tags($this->enc));
+        $this->vax=htmlspecialchars(strip_tags($this->vax));
+        $this->nat=htmlspecialchars(strip_tags($this->nat));
 
         if($statement->execute()){
             $statement->close();

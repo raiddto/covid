@@ -62,6 +62,7 @@
 	                <a href="#table" class="nav-link text-white">Table</a>
 	                <a href="#counter" class="nav-link text-white">Counter</a>
 	                <a href="#about" class="nav-link text-white">About</a>
+	                <a href="/covid" class="nav-link text-white">New</a>
 	            </div>
 	        </div>
 	        <div class="col-11 offset-1">
@@ -260,7 +261,6 @@
 					<p class="text-center">PGMO-PEO</p>
 					<ul class="list-group">
 						<li class="list-group-item text-center"><a href="https://www.facebook.com/raiddto/"><i class="fa-brands fa-facebook"></i> Ryan Abcede</a></li>
-						<li class="list-group-item text-center"><a href="https://www.facebook.com/errljury"><i class="fa-brands fa-facebook"></i> Earl Tejolan</a></li>
 					</ul>
 				</div>
 	        </div>
