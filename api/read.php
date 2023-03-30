@@ -17,7 +17,7 @@ if (isset($_GET['id'])) {
 } else {
     $param = (object)[];
     $param->start = isset($_POST['start']) ? $_POST['start'] : 0;
-    $param->length = isset($_POST['length']) ? $_POST['length'] : 5;
+    $param->length = isset($_POST['length']) ? $_POST['length'] : 50;
     $param->search = isset($_POST['search']['value']) ? "%" . $_POST['search']['value'] . "%" : "%";
     $result = $items->getall($param);
 }
